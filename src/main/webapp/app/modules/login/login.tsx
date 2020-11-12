@@ -15,7 +15,7 @@ export const Login = (props: ILoginProps) => {
 	});
 
   return (
-    <Segment basic style={{ padding: '5em 5em' }} vertical>
+    <Segment basic style={{ padding: '5em 5em' }} vertical>2
 		<Grid container stackable verticalAlign='middle'>
 			<Grid.Row>
 				<Grid.Column width={16}>

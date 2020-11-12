@@ -200,6 +200,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
             </Message>
           </List.Item>
         </List>
+          <button className='myButton lined thin'>Test button</button>
         <Button
           color='teal'
           icon='pencil'

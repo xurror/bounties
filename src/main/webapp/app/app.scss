@@ -3,11 +3,238 @@
 // Import Bootstrap source files from node_modules
 // @import 'node_modules/bootstrap/scss/bootstrap';
 // @import '~bootswatch/dist/materia/bootswatch';
-.bg-image {
-  background-image: url('./bounties_bg.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  min-height: calc(100vh - 125px);
+// @import './border-effect.svg';
+
+@import url('https://fonts.googleapis.com/css?family=Sanchez|Pirata+One|Bilbo+Swash+Caps&display=swap');
+
+@font-face {
+  font-family: Morris;
+  src: url(https://cdn.statically.io/gh/EmmesCodes/Tipografias/dae9f5bb/MorrisInitials.ttf);
+}
+
+:root {
+  --fontSize: calc((1vw + 1vh) * 0.75);
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.custBox {
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  border: solid 2px #41403e;
+}
+
+.myButton {
+  cursor: pointer;
+  align-self: center;
+  background: transparent;
+  padding: 0.75rem 0.75rem;
+  margin: 0 1rem;
+  transition: all 0.5s ease;
+  color: #41403e;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  outline: none;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  /*
+  Above is shorthand for:
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  */
+  &:hover {
+    box-shadow: 2px 8px 4px -6px hsla(0, 0%, 0%, 0.3);
+  }
+  &.lined.thick {
+    border: solid 7px #41403e;
+  }
+  &.dotted.thick {
+    border: dotted 5px #41403e;
+  }
+  &.dashed.thick {
+    border: dashed 5px #41403e;
+  }
+  &.lined.thin {
+    border: solid 2px #41403e;
+  }
+  &.dotted.thin {
+    border: dotted 2px #41403e;
+  }
+  &.dashed.thin {
+    border: dashed 2px #41403e;
+  }
+}
+
+body {
+  font: var(--fontSize) / 200% 'Bilbo Swash Caps', cursive !important;
+  background-image: url('./bounties-bg-image.jpg') !important;
+  background-size: cover !important;
+  height: 100vh !important;
+}
+
+main {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.oldie-filter {
+  filter: url(#wavy2);
+}
+
+#parchment {
+  position: absolute !important;
+  display: flex !important;
+  width: 75% !important;
+  height: 100% !important;
+  /* center page with absolute position */
+  top: 0% !important;
+  left: 50% !important;
+  transform: translate(-50%, 0) !important;
+  margin: 2em 0 !important;
+  padding: 4em !important;
+  box-shadow: 2px 3px 20px black, 0 0 125px #8f5922 inset !important;
+  background: #fffef0 !important;
+  /* v2.1 : borders effect with SVG : try to play with scale to change them */
+  // filter: url(#wavy2);
+  /* v2.2 : Noise added for a vellum paper effect */
+  background-image: url(data:image/png;base64,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) !important;
+}
+
+main p {
+  font-size: 2.25em !important;
+  color: #7f3300 !important;
+  margin-top: 0.75em !important;
+  text-align: justify !important;
+}
+
+div p:not(:first-child)::first-letter {
+  float: left !important;
+  font: 1.7em/1em Morris !important;
+  text-shadow: 1px 1px 1px #000 !important;
+  margin: 0 0.5rem !important;
+}
+
+#contain {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 75% !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  padding: 4em !important;
+  filter: url(#noise) !important;
+}
+
+.inkWantedTitle {
+  font-size: 5em !important;
+  font-family: Sanchez, sans-serif !important;
+  text-align: center !important;
+  line-height: 2em !important;
+  color: black !important;
+  // opacity: 0.6 !important;
+}
+
+.inkTitle {
+  font-size: 3em !important;
+  font-family: Sanchez, sans-serif !important;
+  text-align: center !important;
+  line-height: 1.5em !important;
+  color: black !important;
+  opacity: 0.6 !important;
+}
+
+.inkSubTitle {
+  font-size: 2em !important;
+  font-family: Pirata One, sans-serif !important;
+  text-align: left !important;
+  line-height: 3em !important;
+  color: black !important;
+  opacity: 0.6 !important;
+}
+
+.inkReward {
+  font-size: 3em !important;
+  font-family: Pirata One, sans-serif !important;
+  text-align: center !important;
+  line-height: auto !important;
+  color: black !important;
+  opacity: 0.6 !important;
+}
+
+#labarum {
+  width: 20% !important;
+  margin-left: calc((100% - 20%) / 2) !important;
+  height: auto !important;
+}
+
+#labarum img {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.cachet {
+  /* image width = 210px and height = 250px */
+  /*  5 is the common denominator 210 = 5 * 42 */
+  width: calc((100vw * 5) / 42) !important;
+  height: auto !important;
+  text-align: center !important;
+  margin-top: 1rem !important;
+  margin-bottom: auto !important;
+  margin-left: auto !important;
+}
+
+.cachet img {
+  object-fit: cover !important;
+  width: 75% !important;
+  height: 75% !important;
+}
+
+#standardText {
+  font-size: 2em !important;
+  font-family: 'Bilbo Swash Caps', cursive !important;
+  color: #7f3300 !important;
+}
+
+#tableHeaderText {
+  font-size: 1.5em !important;
+  font-family: 'Bilbo Swash Caps', cursive !important;
+  opacity: 0.9 !important;
+}
+
+#inputText {
+  font-size: 1.5em !important;
+  font-family: 'Bilbo Swash Caps', cursive !important;
+}
+
+#inputLabel {
+  font-size: 1.15em !important;
+  font-family: Pirata One, sans-serif !important;
+}
+
+#tableContentText {
+  font-size: 1.5em !important;
+  font-family: 'Bilbo Swash Caps', cursive !important;
+  color: #7f3300 !important;
+}
+
+#signature {
+  text-align: right !important;
+  color: black !important;
+  font-size: 350% !important;
 }
 
 a {

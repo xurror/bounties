@@ -86,6 +86,7 @@ export const DesktopContainer = (props: IHeaderProps) => {
 			<LoadingBar className="loading-bar" />
 			<div className='header-bg-image'>
 				<Segment
+					inverted
 					textAlign='center'
 					style={{ minHeight: 700, padding: '1em 0em' }}
 					vertical

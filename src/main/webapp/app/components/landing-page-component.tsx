@@ -37,7 +37,7 @@ export const LandingPageComponent = (props: ILandingPageComponentProps) => {
         />
         </Media>
       </MediaContextProvider>
-      
+    <div id="contain">
       <Segment style={{ padding: '8em 0em' }} vertical>
         <Grid container stackable verticalAlign='middle'>
           <Grid.Row>
@@ -162,7 +162,7 @@ export const LandingPageComponent = (props: ILandingPageComponentProps) => {
           </Grid>
         </Container>
       </Segment>
-  
+      </div>
     </div>
   );
 };

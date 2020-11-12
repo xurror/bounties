@@ -57,20 +57,14 @@ const Routes = (props: IRouteProps) => {
         </MediaContextProvider>
       </ErrorBoundary>
       
-      <Segment basic style={{ padding: '5em 5em' }} vertical>
-        <Grid container stackable verticalAlign='middle'>
-          <Grid.Row>
-            <Grid.Column width={16}>
+            <div id="contain">
               <Switch>
                 {/* prettier-ignore */}
-                <ErrorBoundaryRoute path={`${match.url}boun`} component={Bounty} />
+                <ErrorBoundaryRoute path={`${match.url}bounty`} component={Bounty} />
                 <ErrorBoundaryRoute path={`${match.url}funding`} component={Funding} />
                 {/* jhipster-needle-add-route-path - JHipster will add routes here */}
               </Switch>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
+            </div>
       
       <Footer />
     </MediaContextProvider>

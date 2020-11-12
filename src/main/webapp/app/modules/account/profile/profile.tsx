@@ -72,7 +72,7 @@ export const ProfileDetail = (props: IProfileDetailProps) => {
               </a>
             </CardAvatar>
             <CardBody profile>
-              <h4 className={classes.cardTitle}>{`${profileEntity.firstName} ${profileEntity.lastName}`}</h4>
+              <h4 className='inkTitle'>{`${profileEntity.firstName} ${profileEntity.lastName}`}</h4>
               <h6 className={classes.cardCategory}>{profileEntity.profile?.githubOrgName}</h6>
               <p className={classes.description}>
                 {profileEntity.profile?.about}
@@ -82,6 +82,7 @@ export const ProfileDetail = (props: IProfileDetailProps) => {
                 ) : (
                   <Button color='teal'>Vote</Button>
                 )}
+                <button onClick={() => alert("Hello")} className='myButton lined thin'>Test button</button>
               </p>
             </CardBody>
           </Card>

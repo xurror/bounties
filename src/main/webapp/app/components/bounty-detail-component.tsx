@@ -183,197 +183,142 @@ export const DesktopBountyDetailComponent = (props: BountyDetailComponentProps) 
 
   return (
     <div>
-      <Ref innerRef={contextRef}>
-				<Grid centered columns='2'>
-				
-					<Grid.Column width='4'>
-						<Sticky context={contextRef} pushing>
-							<Menu vertical>
-								{_.isEmpty(bountySlice(bountyList, props.match.params.id)) ? (
-									!loading && (
-										<Menu.Item>
-											<i>No Bounties found</i>
-										</Menu.Item>
-									)                    
-								) : (
-									bountySlice(bountyList, props.match.params.id).map((bounty, index) => {
-										return (
-											<>
-												<Popup
-													wide='very'
-													position='top center'
-													mouseEnterDelay={500}
-													mouseLeaveDelay={500}
-													trigger={
-														<Menu.Item
-															id={bounty.id?.toString()}
-															name={bounty.summary}
-															active={activeItem === bounty.id?.toString()}
-															as='a' href={`/bounty/${bounty.id}`}
-														>
-															<Header as='h3'>
-																<Header.Content>
-																	{`${bounty.summary.slice(0, 15)}...`}
-																	<Header.Subheader>{bounty.description !== null ? <i>No description available</i> : bounty.description}</Header.Subheader>
-																</Header.Content>
-															</Header>
-														</Menu.Item>
-													}
-												>
-													<Header as='h3' content={bounty.summary} />
-													<p>{bounty.description !== null ? <i>No description available</i> : bounty.description}</p>
-													<span><small>Difficulty: <Rating icon='star' rating={getDifficulty(bounty.experience)} maxRating={3} /></small></span>
-													<br/>
-													<span><small>Category: {bounty.category === Category.FRONT_END && 'Front End' || bounty.category === Category.BACKEND && 'Backend' || bounty.category === Category.THIS && 'This'}</small></span>
-												</Popup>
-											</>
-										)
-									})
-								)}
-								<Menu.Item>
-									<Input
-										icon='search'
-										placeholder='Search bounties...'
-										onChange={(e, { value }) => setSearch(value)}
-										onKeyPress={startSearching}
-										value={search}
-									/>
-								</Menu.Item>
-							</Menu>
-						</Sticky>
-					</Grid.Column>
+			<h1 className='inkWantedTitle'>WANTED</h1>
+			<Segment padded='very' basic>
+				<div className='custBox'>
+					<h1 className='inkTitle'>{bountyEntity.summary}</h1>
+					<Segment padded='very' basic>
+						<Grid columns={2}>
+							<Grid.Column width={12}>
 
-          <Grid.Column width={12}>
-            <Segment basic>
-              <Grid columns={2}>
-                <Grid.Column width={11}>
-                  <Header as='h1' textAlign='left'>
-                    {bountyEntity.summary}
-										<Header.Subheader>
-											<List bulleted horizontal>
-												<List.Item>
-													Created by {bountyEntity.createdBy}
-												</List.Item>
-												<List.Item>
-													on {bountyEntity.createdDate === null ? '' : `${new Date(bountyEntity.createdDate).toLocaleDateString('en-US', options)}`}
-												</List.Item>
-											</List>
-										</Header.Subheader>
-                  </Header>
-
-                  <Header as='h2'>
-                    Description
-                  </Header>
-                  <p>{bountyEntity.description !== null ? <i>No description available</i> : bountyEntity.description}</p>
-									<br/>
+								<Header as='h2' className='inkSubTitle'>Description</Header>
+								<p>{bountyEntity.description !== null ? 'No description available' : bountyEntity.description}</p>
+								<br/>
+								<div id='standardText'>
 									<List size='large'>
-                    <List.Item>
-                      Difficulty: <Rating icon='star' rating={getDifficulty(bountyEntity.experience)} maxRating={3} />
-										</List.Item>
-                    <List.Item>Category: {bountyEntity.category === Category.FRONT_END && 'Front End' || bountyEntity.category === Category.BACKEND && 'Backend' || bountyEntity.category === Category.THIS && 'This'}</List.Item>
-                    <List.Item>Type: {capitalizeFirst(bountyEntity.type)}</List.Item>
-                    <List.Item as='a' href={bountyEntity.issueUrl}>Issue url</List.Item>
-                  </List>
-                  
-                  <Header as='h2'>
-                    Expires in:
-                  </Header>
-                  <Grid>
-                    <Grid.Column width={10}>
-                      <div>
-                        <Timer startDate={(bountyEntity?.expiryDate)} />
-                      </div>
-                    </Grid.Column>
-                  </Grid>
-                </Grid.Column>
+										<List.Item>Difficulty: <Rating icon='star' size='huge' rating={getDifficulty(bountyEntity.experience)} maxRating={3} /></List.Item>
+										<List.Item>Category: {bountyEntity.category === Category.FRONT_END && 'Front End' || bountyEntity.category === Category.BACKEND && 'Backend' || bountyEntity.category === Category.THIS && 'This'}</List.Item>
+										<List.Item>Type: {capitalizeFirst(bountyEntity.type)}</List.Item>
+										<List.Item as='a' href={bountyEntity.issueUrl}>Issue url</List.Item>
+									</List>
+								</div>
+								
+								<Grid>
+									<Grid.Column width={6}>
+										<p>Time left:</p>
+									</Grid.Column>
+									<Grid.Column width={10}>
+										<div>
+											<Timer startDate={(bountyEntity?.expiryDate)} />
+										</div>
+									</Grid.Column>
+								</Grid>																
+								
+							
+							</Grid.Column>
+							<Grid.Column width='4'>
+								<div className='inkReward'>Reward: ${bountyEntity.amount}</div>
+								<Container>
 
-                <Grid.Column width={5}>
-                  {
-                    hasExpired(bountyEntity.expiryDate?.toString()) && <Label as='a' color='red' ribbon='right'>Expired</Label>
-                    || bountyEntity?.status === Status.CLOSED && <Label as='a' color='red' ribbon='right'>Closed</Label>
-                    || bountyEntity?.status === Status.CLAIMED && <Label as='a' color='red' ribbon='right'>Claimed</Label>
-                  }
-                  <Container>
-                    <Statistic horizontal>
-                      <Statistic.Value>${bountyEntity.amount}</Statistic.Value>
-                      <Statistic.Label>Bounty</Statistic.Label>
-                    </Statistic>
+									<Header as='h2' className='inkSubTitle'>Sponsors</Header>
+									<div id='standardText'>
+										<List size='medium' divided animated verticalAlign='middle' >
+											{bountyEntity.fundings?.map((funding, index) => {
+												return (
+													<List.Item key={index}>
+														{`${funding.createdBy}: $${funding.amount}`}
+														{isAuthenticated && account.login === bountyEntity.createdBy ? (
+															<List.Content floated='right'>
+																<Icon name='pencil' size='small' color='teal' />
+																<Icon name='trash' size='small' color='red' />
+															</List.Content>
+														) : (
+															null
+														)}
+													</List.Item>
+												)
+											})}
+										</List>
+									</div>
+									<br/>
+									{!isAuthenticated && (
+										<ReactTooltip id='funds-tooltip' aria-haspopup='true' type='info'>
+											<p>You need to signed in to add funds</p>
+										</ReactTooltip>
+									)}
+									<Modal
+										size={'small'}
+										open={props.open}
+										onOpen={() => props.setOpen(true)}
+										onClose={() => props.setOpen(false)}
+										trigger={
+											<button
+												className='myButton'
+												data-tip
+												data-for='funds-tooltip'
+												disabled={!isAuthenticated}
+											><Icon name='add' />Add funds</button>
+										}
+									>
+										<FundsModalContent
+											handleModeChange={props.handleModeChange}
+											handleSubmit={props.handleSubmit}
+											modeError={props.modeError}
+											onSubmit={props.onSubmit}
+											setOpen={props.setOpen}
+											control={props.control}
+											errors={props.errors}
+											mode={props.mode}
+										/>
+									</Modal>
 
-                    <Header as='h2' textAlign='justified'>Sponsors</Header>
+								</Container>
+								
+								{
+									hasExpired(bountyEntity.expiryDate?.toString()) && <p className="cachet"><img src="https://i.postimg.cc/4NBYNqCR/22.png" /></p>
+									|| bountyEntity?.status === Status.CLOSED && <p className="cachet"><img src="https://i.postimg.cc/4NBYNqCR/22.png" /></p>
+									|| bountyEntity?.status === Status.CLAIMED && <p className="cachet"><img src="https://i.postimg.cc/4NBYNqCR/22.png" /></p>
+								}
+							</Grid.Column>
+						</Grid>	
 
-                    <List size='large' ordered divided animated verticalAlign='middle' >
-                      {bountyEntity.fundings?.map((funding, index) => {
-                        return (
-                          <List.Item key={index}>
-                            {`${funding.createdBy}: $${funding.amount}`}
-                            {isAuthenticated && account.login === bountyEntity.createdBy ? (
-                              <List.Content floated='right'>
-                                <Icon name='edit' color='teal' />
-                                <Icon name='trash' color='red' />
-                              </List.Content>
-                            ) : (
-                              null
-                            )}
-                          </List.Item>
-                        )
-                      })}
-										</List>										
-										{!isAuthenticated && (
-											<ReactTooltip id='funds-tooltip' aria-haspopup='true' type='info'>
-												<p>You need to signed in to add funds</p>
-											</ReactTooltip>
-										)}
-                    <Modal
-                      size={'small'}
-                      open={props.open}
-                      onOpen={() => props.setOpen(true)}
-                      onClose={() => props.setOpen(false)}
-                      trigger={
-												<Button
-													data-tip
-													data-for='funds-tooltip'
-													color='teal'
-													content='Add funds'
-													icon='add'
-													labelPosition='right'
-													disabled={!isAuthenticated}
-												/>
-                      }
-                    >
-											<FundsModalContent
-												handleModeChange={props.handleModeChange}
-												handleSubmit={props.handleSubmit}
-												modeError={props.modeError}
-												onSubmit={props.onSubmit}
-												setOpen={props.setOpen}
-												control={props.control}
-												errors={props.errors}
-												mode={props.mode}
-											/>
-                    </Modal>
+						<br/>
+						<div id="signature">
+							Posted by {bountyEntity.createdBy}
+							<br/>
+							on {bountyEntity.createdDate === null ? '' : `${new Date(bountyEntity.createdDate).toLocaleDateString('en-US', options)}`}
+						</div>
+						
+						<br/>
+						{isAuthenticated && account.login === bountyEntity.createdBy ? (
+							<div>
+								<Divider />
+								<Segment textAlign='center' basic>
 
-                  </Container>
-                </Grid.Column>
-              </Grid>
-              <br/>
-              {isAuthenticated && account.login === bountyEntity.createdBy ? (
-                <div>
-                  <Divider />
-                  <Segment textAlign='center' basic>
+									<button
+										className='myButton'
+										style={{ borderColor: 'green' }}
+										data-tip
+										data-for='funds-tooltip'
+										disabled={!isAuthenticated}
+									><Icon name='pencil' />Edit Poster</button>
 
-                    <Button color='teal'>Edit</Button>
-                    <Button negative>Close</Button>
-                  </Segment>
-                </div>
-              ) : (
-                null
-              )}
+									<button
+										className='myButton'
+										style={{ borderColor: 'red' }}
+										data-tip
+										data-for='funds-tooltip'
+										disabled={!isAuthenticated}
+									><Icon name='trash' />Remove Poster</button>
+								</Segment>
+							</div>
+						) : (
+							null
+						)}
 
-            </Segment>
-					</Grid.Column>
-					
-        </Grid>
-      </Ref>
+					</Segment>
+				</div>
+			</Segment>
     </div>
   );
 };
@@ -383,121 +328,114 @@ export const MobileBountyDetailComponent = (props: BountyDetailComponentProps) =
 
 	return (
 		<div>
+			<h1 className='inkWantedTitle'>WANTED</h1>
+					<div className='custBox'>
+					<Segment basic>
 			{
 				hasExpired(bountyEntity.expiryDate?.toString()) && <Label as='a' color='red' ribbon>Expired</Label>
 				|| bountyEntity?.status === Status.CLOSED && <Label as='a' color='red' ribbon>Claimed</Label>
 				|| bountyEntity?.status === Status.CLAIMED && <Label as='a' color='red' ribbon>Claimed</Label>
 			}
 			<Segment vertical>
-				<Grid>
-					<Grid.Column width={4}>
-						<small>
-							<Statistic size='small'>
-								<Statistic.Value>${bountyEntity.amount}</Statistic.Value>
-								<Statistic.Label>Bounty</Statistic.Label>
-							</Statistic>
-						</small>
-					</Grid.Column>
-					<Grid.Column width={2} />
-					<Grid.Column width={10}>
-						<div>
-							<Timer startDate={(bountyEntity?.expiryDate)} />
-						</div>
-					</Grid.Column>
-				</Grid>
-				
+					
+				<div className='inkReward'>Reward: ${bountyEntity.amount}</div>
+				<br/>
+				<div>
+					<Timer startDate={(bountyEntity?.expiryDate)} />
+				</div>
+			
 				<Divider />
 
-				<Header as='h1' textAlign='left'>
+				<Header as='h1' className='inkTitle' textAlign='left'>
 					{bountyEntity.summary}
-					<Header.Subheader>
-						<List bulleted horizontal>
-							<List.Item>
-								Created by {bountyEntity.createdBy}
-							</List.Item>
-							<List.Item>
-							 	on {bountyEntity.createdDate === null ? '' : `${new Date(bountyEntity.createdDate).toLocaleDateString('en-US', options)}`}
-							</List.Item>
-						</List>
-					</Header.Subheader>
 				</Header>
 
-				<h2>
-					Description
-				</h2>
+				<Header as='h2' className='inkSubTitle'>Description</Header>
 				<p>{bountyEntity.description !== null ? <i>No description available</i> : bountyEntity.description}</p>
 				<br/>
-				<br/>
-				<Grid columns='2'>
-					<Grid.Column>
-						<List size='large'>
-							<List.Item>
-								Difficulty: <Rating icon='star' rating={getDifficulty(bountyEntity.experience)} maxRating={3} />
+				<div id='standardText'>
+					<List size='large'>
+						<List.Item>Difficulty: <Rating icon='star' rating={getDifficulty(bountyEntity.experience)} maxRating={3} /></List.Item>
+						<List.Item>Category: {bountyEntity.category === Category.FRONT_END && 'Front End' || bountyEntity.category === Category.BACKEND && 'Backend' || bountyEntity.category === Category.THIS && 'This'}</List.Item>
+						<List.Item>Type: {capitalizeFirst(bountyEntity.type)}</List.Item>
+						<List.Item as='a' href={bountyEntity.issueUrl}>Issue url</List.Item>
+					</List>
+				</div>
+					
+				<Header as='h2' className='inkSubTitle'>Sponsors</Header>
+				<div id='standardText'>
+					<List size='medium' divided animated verticalAlign='middle' >
+						{bountyEntity.fundings?.map((funding, index) => {
+							return (
+								<List.Item key={index}>
+									{`${funding.createdBy}: $${funding.amount}`}
+									{isAuthenticated && account.login === bountyEntity.createdBy ? (
+										<List.Content floated='right'>
+											<Icon name='pencil' size='small' color='teal' />
+											<Icon name='trash' size='small' color='red' />
+										</List.Content>
+									) : (
+										null
+									)}
 								</List.Item>
-							<List.Item>Category: {bountyEntity.category === Category.FRONT_END && 'Front End' || bountyEntity.category === Category.BACKEND && 'Backend' || bountyEntity.category === Category.THIS && 'This'}</List.Item>
-							<List.Item>Type: {capitalizeFirst(bountyEntity.type)}</List.Item>
-							<List.Item as='a' href={bountyEntity.issueUrl}>Issue url</List.Item>
-						</List>
-					</Grid.Column>
-
-					<Grid.Column>
-						<Header as='h2'>Sponsors</Header>
-
-						<List size='large' ordered divided animated verticalAlign='middle' >
-							{bountyEntity.fundings?.map((funding, index) => {
-								return (
-									<List.Item key={index}>
-										{`${funding.createdBy}: $${funding.amount}`}
-										{isAuthenticated && account.login === bountyEntity.createdBy ? (
-											<List.Content floated='right'>
-												<Icon name='edit' color='teal' />
-												<Icon name='trash' color='red' />
-											</List.Content>
-										) : (
-											null
-										)}
-									</List.Item>
-								)
-							})}
-						</List>
-
-						<Modal
-							size={'small'}
-							open={props.open}
-							onOpen={() => props.setOpen(true)}
-							onClose={() => props.setOpen(false)}
-							trigger={
-								<Button
-									color='teal'
-									content='Add funds'
-									icon='add'
-									labelPosition='right'
-									disabled={!isAuthenticated}
-								/>
-							}
-						>
-							<FundsModalContent
-								handleModeChange={props.handleModeChange}
-								handleSubmit={props.handleSubmit}
-								modeError={props.modeError}
-								onSubmit={props.onSubmit}
-								setOpen={props.setOpen}
-								control={props.control}
-								errors={props.errors}
-								mode={props.mode}
-							/>
-						</Modal>
-					</Grid.Column>
-				</Grid>
+							)
+						})}
+					</List>
+				</div>
+						<br/>
+				<Modal
+					size={'small'}
+					open={props.open}
+					onOpen={() => props.setOpen(true)}
+					onClose={() => props.setOpen(false)}
+					trigger={
+						<button
+							className='myButton'
+							data-tip
+							data-for='funds-tooltip'
+							disabled={!isAuthenticated}
+						><Icon name='add' />Fund</button>
+					}
+				>
+					<FundsModalContent
+						handleModeChange={props.handleModeChange}
+						handleSubmit={props.handleSubmit}
+						modeError={props.modeError}
+						onSubmit={props.onSubmit}
+						setOpen={props.setOpen}
+						control={props.control}
+						errors={props.errors}
+						mode={props.mode}
+					/>
+				</Modal>
 						
+				<br/>
+				<br/>
+				<br/>
+				<div id="signature">
+					Posted by {bountyEntity.createdBy} on {bountyEntity.createdDate === null ? '' : `${new Date(bountyEntity.createdDate).toLocaleDateString('en-US', options)}`}
+				</div>
 				<br/>
 				{isAuthenticated && account.login === bountyEntity.createdBy ? (
 					<div>
 						<Divider />
 						<Segment textAlign='center' basic>
 
-							<Button color='teal'>Edit</Button>
-							<Button negative>Close</Button>
+							<button
+								className='myButton'
+								style={{ borderColor: 'green' }}
+								data-tip
+								data-for='funds-tooltip'
+								disabled={!isAuthenticated}
+							><Icon name='pencil' /></button>
+
+							<button
+								className='myButton'
+								style={{ borderColor: 'red' }}
+								data-tip
+								data-for='funds-tooltip'
+								disabled={!isAuthenticated}
+							><Icon name='trash' /></button>
 						</Segment>
 					</div>
 				) : (
@@ -506,6 +444,8 @@ export const MobileBountyDetailComponent = (props: BountyDetailComponentProps) =
 
 			</Segment>
 
+				</Segment>
+			</div>
 		</div>
 	);
 
@@ -523,7 +463,7 @@ export const BountyDetailComponent = (props: IBountyDetailProps) => {
 
   useEffect(() => {
     props.getEntity(props.match.params.id);
-    props.getEntities();
+    // props.getEntities();
   }, []);
 
   const startSearching = (event) => {

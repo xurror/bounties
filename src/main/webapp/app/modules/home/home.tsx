@@ -54,20 +54,20 @@ export const Home = (props: IHomeProp) => {
                 />
               </Media>
             </MediaContextProvider>
+            <BountyHomeComponent
+              bountyList={props.bountyList}
+              loading={props.loading}
+              links={props.links}
+              totalItems={props.totalItems}
+              updateSuccess={props.updateSuccess}
+              getSearchEntities={props.getSearchEntities}
+              getEntities={props.getEntities}
+              reset={props.reset}
+              location={props.location}
+              history={props.history}
+              match={props.match}
+            />
           </ErrorBoundary>
-          <BountyHomeComponent
-            bountyList={props.bountyList}
-            loading={props.loading}
-            links={props.links}
-            totalItems={props.totalItems}
-            updateSuccess={props.updateSuccess}
-            getSearchEntities={props.getSearchEntities}
-            getEntities={props.getEntities}
-            reset={props.reset}
-            location={props.location}
-            history={props.history}
-            match={props.match}
-          />
           <Footer />
         </div>
       ) : (

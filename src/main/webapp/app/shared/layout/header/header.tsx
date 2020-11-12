@@ -1,11 +1,10 @@
-// import './header.scss';
+import './header.scss';
 
 import React, { Children, useState } from 'react';
 import LoadingBar from 'react-redux-loading-bar';
 import { Dropdown, Menu, Container, Image, Input, Button, Label, Sidebar, Segment, Icon, List } from 'semantic-ui-react';
 import { NavLink as Link } from 'react-router-dom';
 import { getLoginUrl } from 'app/shared/util/url-utils';
-import { createMedia } from '@artsy/fresnel';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -53,14 +52,14 @@ export const DesktopHeader = (props: IHeaderProps) => {
               <Dropdown item trigger={trigger(props.account.login)}>
                 <Dropdown.Menu>
                   <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
-                  <Dropdown.Item as={Link} to={`/${props.account.login}`}>Profile</Dropdown.Item>
+                  <Dropdown.Item as={Link} to={`/hunter/${props.account.login}`}>Profile</Dropdown.Item>
                   <Dropdown.Item>Settings</Dropdown.Item>
                   <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
               <Menu.Item>
-                <Button as='a' href='/oauth2/authorization/oidc'>
+                <Button as={Link} to={getLoginUrl()}>
                   Sign In
                 </Button>
               </Menu.Item>
@@ -85,7 +84,7 @@ export const MobileHeader = (props: IHeaderProps) => {
 	const { sidebarOpened } = state
 
   return (
-    <div>
+    <div className='myHeader'>
       <Sidebar.Pushable>
         <Sidebar
           as={Menu}
@@ -139,7 +138,6 @@ export const MobileHeader = (props: IHeaderProps) => {
 
         <Sidebar.Pusher dimmed={sidebarOpened}>
           <Segment
-            inverted
             textAlign='center'
             style={{ minHeight: 150, padding: '0em 0em' }}
             vertical
@@ -161,7 +159,7 @@ export const MobileHeader = (props: IHeaderProps) => {
                     <Dropdown item trigger={trigger(props.account.login)}>
                       <Dropdown.Menu>
                         <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
-                        <Dropdown.Item as={Link} to={`/${props.account}`}>Profile</Dropdown.Item>
+                        <Dropdown.Item as={Link} to={`/hunter/${props.account.login}`}>Profile</Dropdown.Item>
                         <Dropdown.Item>Settings</Dropdown.Item>
                         <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
                       </Dropdown.Menu>
@@ -176,16 +174,7 @@ export const MobileHeader = (props: IHeaderProps) => {
                 </Menu.Item>
               </Menu>
             </Container>
-
-            <Link to={`/new`}>
-              <Button
-                color='teal'
-                content='Create New Bounty'
-                icon='add'
-                labelPosition='left'
-              />
-            </Link>
-                    
+      
           </Segment>
         </Sidebar.Pusher>
       </Sidebar.Pushable>

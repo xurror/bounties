@@ -21,6 +21,7 @@ export interface IBountyUpdateProps extends StateProps, DispatchProps, RouteComp
 interface IOpts {text: string, value: Type, message: string}
 interface IBountyFormInput {
   summary: string;
+  description: string;
   issueUrl: string;
   category: string;
   type: string;
@@ -32,6 +33,7 @@ interface IBountyFormInput {
 
 const bountyFormSchema = yup.object().shape({
   summary: yup.string().required("please enter a summary"),
+  description: yup.string(),
   issueUrl: yup.string().url("Field must be a url").required("Please enter the issue url"),
   // category: yup.string().required("Please select a category"),
   // type: yup.string().required("Please select a type"),
@@ -117,12 +119,8 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
         <Loader active inline='centered' />
       ) : (
         <div>
-          <Message
-            attached
-            header='Get started here!'
-            content='Fill out the form below to post a new bounty'
-          />
-          <Segment fluid attached>
+          <h1 className='inkTitle'>Fill out the form below to post a new bounty</h1>
+          <Segment basic>
             <Grid>
               <Grid.Column width='4'/>
               <Grid.Column width='8'>
@@ -130,9 +128,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                   <Form.Field
                     required
                     error={errors.summary?.message}>
-                    <label>Summary</label>
+                    <label id='inputLabel'>Summary</label>
                     <Controller
-                      as={Input}
+                      as={<input id='inputText' />}
                       name="summary"
                       placeholder="Summary"
                       control={control}
@@ -144,12 +142,22 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       </div>
                     )}
                   </Form.Field>
+                  <Form.Field>
+                    <label id='inputLabel'>Description</label>
+                    <Controller
+                      as={<textarea id='inputText' />}
+                      name="description"
+                      placeholder="Description"
+                      control={control}
+                      defaultValue={bountyEntity?.description}
+                    />
+                  </Form.Field>
                   <Form.Field
                     required
                     error={errors.issueUrl?.message}>
-                    <label>Issue url</label>
+                    <label id='inputLabel'>Issue url</label>
                     <Controller
-                      as={Input}
+                      as={<input id='inputText' />}
                       name="issueUrl"
                       placeholder="Issuer url"
                       control={control}
@@ -165,8 +173,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                   <Form.Field
                     required
                     error={errors.category?.message}>
-                    <label>Category</label>
+                    <label id='inputLabel'>Category</label>
                     <Controller
+                      id='inputText'
                       name="category"
                       placeholder="Category"
                       as={<Select />}
@@ -187,8 +196,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                   <Form.Field
                     required
                     error={errors.type?.message}>
-                    <label>Type</label>
+                    <label id='inputLabel'>Type</label>
                     <Controller
+                      id='inputText'
                       name="type"
                       placeholder="Type"
                       as={Select}
@@ -206,8 +216,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                   <Form.Field
                     required
                     error={errors.experience?.message}>
-                    <label>Experience</label>
+                    <label id='inputLabel'>Experience</label>
                     <Controller
+                      id='inputText'
                       name="experience"
                       placeholder="Experience"
                       as={Select}
@@ -226,9 +237,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                   <Form.Field
                     required
                     error={errors.expiryDate?.message}>
-                    <label>Expiry date</label>
+                    <label id='inputLabel'>Expiry date</label>
                     <Controller
-                      as={Input}
+                      as={<input id='inputText' />}
                       type='date'
                       name="expiryDate"
                       placeholder="Expiry date"
@@ -249,9 +260,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                   <Form.Field
                     required
                     error={errors.amount?.message}>
-                    <label>Amount</label>
+                    <label id='inputLabel'>Amount</label>
                     <Controller
-                      as={Input}
+                      as={<input id='inputText' />}
                       name="amount"
                       placeholder="Amount"
                       control={control}
@@ -266,8 +277,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                   <Form.Field
                     required
                     error={errors.mode?.message}>
-                    <label>Mode</label>
+                    <label id='inputLabel'>Mode</label>
                     <Controller
+                      id='inputText'
                       name="mode"
                       placeholder="Mode"
                       as={Select}

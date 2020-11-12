@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import {NavLink as Link, RouteComponentProps } from 'react-router-dom';
+import {NavLink as Link, RouteComponentProps, Switch } from 'react-router-dom';
 
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
@@ -24,8 +24,8 @@ const Routes = (props: IRouteProps) => {
   const { match, isAuthenticated } = props
 
   return (
-    <div>
-      <Segment basic style={{ padding: '5em 5em' }} vertical>
+    <div id='containd'>
+      <Segment basic vertical>
         <Grid container stackable verticalAlign='middle'>
           <Grid.Row>
             <Grid.Column width={16}>        
@@ -44,13 +44,15 @@ const Routes = (props: IRouteProps) => {
                 )}
               </div>
               <br/>
-              <ErrorBoundaryRoute exact path={`${match.url}:login`} component={Profile} />
-              <PrivateRoute exact path={`${match.url}:login/settings`} component={Settings} hasAnyAuthorities={[AUTHORITIES.USER]} />
-              {/* 
-                <ErrorBoundaryRoute path={`${match.url}/password`} component={Password} />
-                <ErrorBoundaryRoute path={`${match.url}/sessions`} component={Sessions} />
-                <ErrorBoundaryRoute path={`${match.url}/register-details`} component={RegisterDetails} />
-              */}
+              <Switch>
+                <ErrorBoundaryRoute exact path={`${match.url}/:login`} component={Profile} />
+                <PrivateRoute exact path={`${match.url}/:login/settings`} component={Settings} hasAnyAuthorities={[AUTHORITIES.USER]} />
+                {/* 
+                  <ErrorBoundaryRoute path={`${match.url}/password`} component={Password} />
+                  <ErrorBoundaryRoute path={`${match.url}/sessions`} component={Sessions} />
+                  <ErrorBoundaryRoute path={`${match.url}/register-details`} component={RegisterDetails} />
+                */}
+              </Switch>
             </Grid.Column>
           </Grid.Row>
         </Grid>
