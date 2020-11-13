@@ -18,3 +18,5 @@ export const isValidUrl = string => {
   );
   return !!pattern.test(string);
 };
+
+export default getLoginUrl;

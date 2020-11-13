@@ -253,7 +253,7 @@ export const DesktopBountyDetailComponent = (props: BountyDetailComponentProps) 
 										onClose={() => props.setOpen(false)}
 										trigger={
 											<button
-												className='myButton'
+												className='myButton myButtonNegative'
 												data-tip
 												data-for='funds-tooltip'
 												disabled={!isAuthenticated}

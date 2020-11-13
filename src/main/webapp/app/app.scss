@@ -34,15 +34,32 @@ body {
   border: solid 2px #41403e;
 }
 
+.myButtonPositive {
+  &:hover {
+    background: repeating-linear-gradient(135deg, transparent, transparent 3px, hsla(0, 7%, 47%, 0.03) 0, hsla(120, 100%, 25%, 0.3) 10px)
+      hsla(120, 100%, 25%, 0.3);
+  }
+}
+
+.myButtonNegative {
+  &:hover {
+    background: repeating-linear-gradient(135deg, transparent, transparent 3px, hsla(0, 7%, 47%, 0.03) 0, hsla(360, 100%, 25%, 0.3) 10px)
+      hsla(360, 100%, 25%, 0.3);
+  }
+}
+
 .myButton {
   cursor: pointer;
   align-self: center;
   background: transparent;
-  padding: 0.75rem 0.75rem;
+  padding: 0.7rem 0.7rem;
   margin: 0 1rem;
   transition: all 0.5s ease;
   color: #41403e;
-  font-size: 2rem;
+  font-size: 1.6rem;
+  font-family: 'Bilbo Swash Caps', cursive !important;
+  font-weight: bold;
+  //color: #7f3300 !important;
   letter-spacing: 1px;
   outline: none;
   box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);

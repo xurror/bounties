@@ -4,7 +4,7 @@ import React, { Children, useState } from 'react';
 import LoadingBar from 'react-redux-loading-bar';
 import { Dropdown, Menu, Container, Image, Input, Button, Label, Sidebar, Segment, Icon, List } from 'semantic-ui-react';
 import { NavLink as Link } from 'react-router-dom';
-import { getLoginUrl } from 'app/shared/util/url-utils';
+import getLoginUrl from 'app/shared/util/url-utils';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -59,7 +59,7 @@ export const DesktopHeader = (props: IHeaderProps) => {
               </Dropdown>
             ) : (
               <Menu.Item>
-                <Button as={Link} to={getLoginUrl()}>
+                <Button as='a' href={getLoginUrl()}>
                   Sign In
                 </Button>
               </Menu.Item>
