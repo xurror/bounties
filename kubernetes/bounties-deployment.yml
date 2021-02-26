@@ -14,18 +14,6 @@ spec:
       labels:
         app: bounties
     spec:
-      # affinity:
-      #   podAntiAffinity:
-      #     preferredDuringSchedulingIgnoredDuringExecution:
-      #       - podAffinityTerm:
-      #           labelSelector:
-      #             matchExpressions:
-      #               - key: app
-      #                 operator: In
-      #                 values:
-      #                   - bounties
-      #           topologyKey: kubernetes.io/hostname
-      #         weight: 100
       initContainers:
         - name: init-ds
           image: busybox:latest
@@ -38,7 +26,7 @@ spec:
           image: muellners.azurecr.io/bounties:latest
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: prod
+              value: prod, faker
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://bounties-mysql:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
             - name: JDBC_DATABASE_USERNAME
@@ -53,12 +41,10 @@ spec:
               value: redis://bounties-redis:6379
             - name: JHIPSTER_CACHE_REDIS_CLUSTER
               value: "false"
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI
-              # value: # TODO: GITHUB ISSUER
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID
-              # value: # TODO: GITHUB ISSUER
-            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET
-              # value: # TODO: GITHUB ISSUER
+            - name: OAUTH2_CLIENT_ID
+              value: None
+            - name: OAUTH2_CLIENT_SECRET
+              value: None
             - name: KAFKA_CONSUMER_KEY_DESERIALIZER
               value: 'org.apache.kafka.common.serialization.StringDeserializer'
             - name: KAFKA_CONSUMER_VALUE_DESERIALIZER
@@ -77,6 +63,14 @@ spec:
               value: 'org.apache.kafka.common.serialization.StringDeserializer'
             - name: JAVA_OPTS
               value: ' -Xmx256m -Xms256m'
+            - name: SENTRY_DSN
+              value: None
+            - name: STRIPE_API_KEY
+              value: None
+            - name: STRIPE_PUBLISHABLE_KEY
+              value: None
+            - name: STRIPE_WEBHOOK_SECRET
+              value: None
           resources:
             requests:
               memory: '512Mi'

@@ -56,6 +56,13 @@ spring:
     password:
   thymeleaf:
     cache: true
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: ${OAUTH2_CLIENT_ID}
+            clientSecret: ${OAUTH2_CLIENT_SECRET}
 
 # ===================================================================
 # To enable TLS in production, generate a certificate using:
@@ -116,6 +123,8 @@ jhipster:
   audit-events:
     retention-period: 30 # Number of days before audit events are deleted.
 
+sentry:
+  dsn: ${SENTRY_DSN}
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
@@ -125,4 +134,13 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  listeners:
+    url: https://pubsub.apache.org:2070/
+    path: /jira/FINERACT
+  stripe:
+    api-key: ${STRIPE_API_KEY}
+    publishable-key: ${STRIPE_PUBLISHABLE_KEY}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET}
+    account-country: US
+    payment-methods: card

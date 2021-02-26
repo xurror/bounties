@@ -68,6 +68,13 @@ spring:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
     cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId:
+            clientSecret:
 
 server:
   port: 8081
@@ -108,6 +115,8 @@ jhipster:
   audit-events:
     retention-period: 30 # Number of days before audit events are deleted.
 
+sentry:
+  dsn:
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
@@ -117,4 +126,13 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  listeners:
+    url: https://pubsub.apache.org:2070/
+    path: /jira/FINERACT
+  stripe:
+    api-key:
+    publishable-key:
+    webhook-secret:
+    account-country: US
+    payment-methods: card
