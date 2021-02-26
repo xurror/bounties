@@ -33,9 +33,6 @@ spec:
         - name: init-redis
           image: busybox:latest
           command: ['sh', '-c', 'echo -e "Checking for the availability of Redis server deployment"; while ! nc -z "bounties-redis" 6379; do sleep 1; printf "-"; done; echo -e " >> Redis server has started";']
-        - name: init-kafka
-          image: busybox:latest
-          command: ['sh', '-c', 'echo -e "Checking for the availability of kafka server deployment"; while ! nc -z "bounties-cp-kafka" 9092; do sleep 1; printf "-"; done; echo -e " >> kafka server has started";']
       containers:
         - name: bounties-app
           image: muellners.azurecr.io/bounties:latest
